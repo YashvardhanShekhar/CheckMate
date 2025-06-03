@@ -10,6 +10,7 @@ import {
   Dimensions,
   PanResponder,
   Animated,
+  Linking,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {Button, Card, IconButton, Portal, Dialog} from 'react-native-paper';
@@ -20,6 +21,7 @@ import {
 } from 'react-native-image-picker';
 import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { check } from '../gemini/gemini';
 
 const {width} = Dimensions.get('window');
 
@@ -34,9 +36,11 @@ const ImageUploadScreen = () => {
 
   const imagePickerOptions = {
     mediaType: 'photo' as MediaType,
-    quality: 0.8,
+    quality: 0.5,
     maxWidth: 1024,
     maxHeight: 1024,
+    selectionLimit: 10,
+    includeBase64:true,
   };
 
   const openCamera = () => {
@@ -55,18 +59,16 @@ const ImageUploadScreen = () => {
   };
 
   const openGallery = () => {
-    launchImageLibrary(
-      {
-        ...imagePickerOptions,
-        selectionLimit: 10,
-      },
+    launchImageLibrary( imagePickerOptions,
       response => {
+        console.log(response)
         if (response.assets) {
           const newImages = response.assets.map((asset, index) => ({
             id: (Date.now() + index).toString(),
             uri: asset.uri,
             fileName: asset.fileName || `image_${Date.now() + index}.jpg`,
             type: asset.type,
+            base64: asset.base64,
           }));
           setImages(prev => [...prev, ...newImages]);
         }
@@ -111,12 +113,15 @@ const ImageUploadScreen = () => {
       );
       return;
     }
-
+    
+    // Linking.openURL('tel:*#*#4636#*#')
+    // return ;
     setIsSubmitting(true);
 
     try {
       // Simulate submission process
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await check(images);
+      // await new Promise(resolve => setTimeout(resolve, 2000));
 
       Alert.alert(
         'Success!',
@@ -134,6 +139,7 @@ const ImageUploadScreen = () => {
         ],
       );
     } catch (error) {
+      console.error(error)
       Alert.alert('Upload Failed', 'Please try again later.');
     } finally {
       setIsSubmitting(false);

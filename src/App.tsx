@@ -1,22 +1,23 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
-import {
-  MD3LightTheme as DefaultTheme,
-  Provider as PaperProvider,
-} from 'react-native-paper';
+import {Provider as PaperProvider} from 'react-native-paper';
 import SubjectDashboardScreen from './screens/UploadSheet'; // Renamed import to reflect new screen purpose
+import {EduTechTheme} from './Theme/EduTechTheme';
+import HomeScreen from './screens/HomeScreen';
+import RegistrationScreen from './screens/registrationScreen';
+import MainAnswerScreen from './screens/mainAnswerScreen';
 
 // Define a new theme inspired by the provided UI screenshot
 
+
+
 function App(): React.JSX.Element {
   return (
-    <PaperProvider>
+    <PaperProvider theme={EduTechTheme}>
       <SafeAreaView style={styles.rootContainer}>
-        <StatusBar
-          barStyle="dark-content" // Suitable for light backgrounds
-          backgroundColor='#fff'
-        />
-        <SubjectDashboardScreen /> {/* Use the new component name */}
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <MainAnswerScreen/>{' '}
+        {/* Use the new component name */}
       </SafeAreaView>
     </PaperProvider>
   );
