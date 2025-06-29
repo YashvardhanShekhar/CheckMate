@@ -11,7 +11,7 @@ import {Card, Title, Paragraph, FAB, useTheme} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
-import uploadAndProcessPDF from '../gemini/gemini';
+import {uploadPDF} from '../services/gemini';
 
 const MainAnswerScreen = ({route, navigation}) => {
   const theme = useTheme();
@@ -100,7 +100,7 @@ const MainAnswerScreen = ({route, navigation}) => {
 
   const handleEvaluateMore = async () => {
     console.log('Evaluate More button pressed');
-    await uploadAndProcessPDF();
+    await uploadPDF();
     // navigation.navigate('EvaluationScreen');
   };
 
@@ -191,7 +191,6 @@ const MainAnswerScreen = ({route, navigation}) => {
                     📊 Total Marks: {mainAnswerSheet.totalMarks}
                   </Text>
                 </View>
-                
               </View>
             </View>
 

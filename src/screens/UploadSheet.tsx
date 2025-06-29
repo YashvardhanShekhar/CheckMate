@@ -21,7 +21,7 @@ import {
 } from 'react-native-image-picker';
 import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { check } from '../gemini/gemini';
+import {check} from '../services/gemini';
 
 const {width} = Dimensions.get('window');
 
@@ -40,7 +40,7 @@ const ImageUploadScreen = () => {
     maxWidth: 1024,
     maxHeight: 1024,
     selectionLimit: 10,
-    includeBase64:true,
+    includeBase64: true,
   };
 
   const openCamera = () => {
@@ -59,21 +59,19 @@ const ImageUploadScreen = () => {
   };
 
   const openGallery = () => {
-    launchImageLibrary( imagePickerOptions,
-      response => {
-        console.log(response)
-        if (response.assets) {
-          const newImages = response.assets.map((asset, index) => ({
-            id: (Date.now() + index).toString(),
-            uri: asset.uri,
-            fileName: asset.fileName || `image_${Date.now() + index}.jpg`,
-            type: asset.type,
-            base64: asset.base64,
-          }));
-          setImages(prev => [...prev, ...newImages]);
-        }
-      },
-    );
+    launchImageLibrary(imagePickerOptions, response => {
+      console.log(response);
+      if (response.assets) {
+        const newImages = response.assets.map((asset, index) => ({
+          id: (Date.now() + index).toString(),
+          uri: asset.uri,
+          fileName: asset.fileName || `image_${Date.now() + index}.jpg`,
+          type: asset.type,
+          base64: asset.base64,
+        }));
+        setImages(prev => [...prev, ...newImages]);
+      }
+    });
     setShowDialog(false);
   };
 
@@ -113,7 +111,7 @@ const ImageUploadScreen = () => {
       );
       return;
     }
-    
+
     // Linking.openURL('tel:*#*#4636#*#')
     // return ;
     setIsSubmitting(true);
@@ -139,7 +137,7 @@ const ImageUploadScreen = () => {
         ],
       );
     } catch (error) {
-      console.error(error)
+      console.error(error);
       Alert.alert('Upload Failed', 'Please try again later.');
     } finally {
       setIsSubmitting(false);
@@ -224,7 +222,11 @@ const ImageUploadScreen = () => {
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => removeImage(item.id)}>
-              <Icon name="delete-outline" size={moderateScale(18)} color="#f44336" />
+              <Icon
+                name="delete-outline"
+                size={moderateScale(18)}
+                color="#f44336"
+              />
             </TouchableOpacity>
 
             {/* Image */}
@@ -625,12 +627,12 @@ const styles = StyleSheet.create({
   },
   fullScreenDialog: {
     margin: 0,
-    padding:0,
+    padding: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.61)',
   },
   fullScreenContainer: {
     // flex: 1,
-    padding:scale(10),
+    padding: scale(10),
     // backgroundColor: 'rgba(0, 0, 0, 0.58)',
     justifyContent: 'center',
     alignItems: 'center',

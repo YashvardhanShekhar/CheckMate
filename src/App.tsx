@@ -6,6 +6,8 @@ import {EduTechTheme} from './Theme/EduTechTheme';
 import HomeScreen from './screens/HomeScreen';
 import RegistrationScreen from './screens/registrationScreen';
 import MainAnswerScreen from './screens/mainAnswerScreen';
+import StudentAnswerSheetUpload from './screens/studentAnswerUploadScreen';
+import NewQuestionPaperUpload from './screens/newExamPaperScreen';
 
 // Define a new theme inspired by the provided UI screenshot
 
@@ -16,8 +18,7 @@ function App(): React.JSX.Element {
     <PaperProvider theme={EduTechTheme}>
       <SafeAreaView style={styles.rootContainer}>
         <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-        <MainAnswerScreen/>{' '}
-        {/* Use the new component name */}
+        <NewQuestionPaperUpload /> {/* Use the new component name */}
       </SafeAreaView>
     </PaperProvider>
   );
